@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  input#uploadselfie(type='file', onchange='readURL(this)')
+  img#imagepreview(src='./images/placeholder.jpg', alt='your image')
+  input#pokemonme(type='submit')
+
+block content_scripts
+  script(type='text/javascript').
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imagepreview')
+                .attr('src', e.target.result)
+                .width("auto")
+                .height(150);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }

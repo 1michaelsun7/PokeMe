@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+    script(type='text/javascript', src='./javascripts/clarifai_basic.js')
+    script(type='text/javascript', src='./javascripts/main.js')
+    block content_scripts
+  body
+    block content

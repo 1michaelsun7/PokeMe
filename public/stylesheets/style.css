@@ -32,17 +32,10 @@ p {
 }
 
 
-#pokeme {
-    width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    border: 0;
-    box-shadow: 0;
+#pokemonme {
     position: relative;
-    bottom: 250px;
-    font-family: "arial", sans-serif;
     z-index: 5;
+    margin-top: 5%;
 }
 
 

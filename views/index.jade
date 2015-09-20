@@ -10,8 +10,9 @@ block content
     a.myButton#pokeball(href="#")
     div#login-form
       p.shadowOutline2 Upload a selfie!
-      input#uploadselfie(type='file', onchange='readURL(this)')
-      input#pokemonme(type='submit')
+      div.inputcontainer
+        input#uploadselfie(type='file', onchange='readURL(this)')
+        input#pokemonme(type='submit')
     p#changeContent.shadowOutline
       | Too many Pokémon? Try just the 
       a#tofirstgen first generation

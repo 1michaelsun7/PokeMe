@@ -1,12 +1,21 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.shadowOutline
+    h1 What pokemon are you?
 
-  input#uploadselfie(type='file', onchange='readURL(this)')
+  
   img#imagepreview(src='./images/placeholder.jpg', alt='your image')
-  input#pokemonme(type='submit')
+  div.pokebox
+    a.myButton#pokeball(href="#")
+    div#login-form
+      p.shadowOutline2 Upload a selfie!
+      input#uploadselfie(type='file', onchange='readURL(this)')
+      input#pokemonme(type='submit')
+    p#changeContent.shadowOutline
+      | Too many Pokémon? Try just the 
+      a#tofirstgen first generation
+      | .
 
 block content_scripts
   script(type='text/javascript').
@@ -18,9 +27,10 @@ block content_scripts
             $('#imagepreview')
                 .attr('src', e.target.result)
                 .width("auto")
-                .height(150);
+                .height(150).css("visibility", "visible");
         };
 
         reader.readAsDataURL(input.files[0]);
       }
     }
+    

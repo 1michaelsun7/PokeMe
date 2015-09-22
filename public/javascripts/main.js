@@ -72,7 +72,7 @@ $(document).ready(function(){
 function init(){
     pokefai = new Clarifai(
         {
-            'accessToken': 'LCqaL8HA91RKTMqyBuVm2ooVpn7ARF'
+            'accessToken': 'KFy2wbFDUjzDtM6h914MjGXVuBXo7P'
         }
     );
 }

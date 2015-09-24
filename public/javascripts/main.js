@@ -33,6 +33,7 @@ $(document).ready(function(){
 					processData: false,
 					contentType: false,
 					success: function(data) {
+						console.log(data.url)
 						pokeme(data.url);
 					},
 					error: function(data) {
@@ -72,7 +73,7 @@ $(document).ready(function(){
 function init(){
     pokefai = new Clarifai(
         {
-            'accessToken': 'v0Az2dukEo82rL0omTgK4BYhbGAXL0'
+            'accessToken': 'trzbJxc9M9IoWE3oI6s7Fl7Snof1Do'
         }
     );
 }

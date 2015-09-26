@@ -71,11 +71,22 @@ $(document).ready(function(){
 });
 
 function init(){
-    pokefai = new Clarifai(
-        {
-            'accessToken': 'trzbJxc9M9IoWE3oI6s7Fl7Snof1Do'
-        }
-    );
+	$.post("https://api.clarifai.com/v1/token/", 
+	{
+		grant_type: "client_credentials",
+		client_id: "u2ODPbKXe3I51y9TV2GPGqmF7ZzZ8SVInInj_8pb",
+		client_secret: "hwIilWC2qT-4VJHG1HTpnXoavOLpCevjbZ9Osnz4"
+	},
+	function(data, status){
+		if (status == "success"){
+			pokefai = new Clarifai(
+		        {
+		            'accessToken': data.access_token
+		        }
+		    );
+		}
+	});
+    
 }
 
 function positive(url, pkmn){

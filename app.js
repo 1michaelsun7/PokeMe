@@ -5,6 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
+var firebase = require("firebase");
+
+var config = {
+  apiKey: "AIzaSyDPQe7A6-NHNyBvzZKhz0w97hAv2_Y8DSw",
+  authDomain: "pokeme-b433b.firebaseapp.com",
+  databaseURL: "https://pokeme-b433b.firebaseio.com",
+  storageBucket: "pokeme-b433b.appspot.com",
+};
+firebase.initializeApp(config);
 
 var app = express();
 app.listen(process.env.PORT || 8000, function(){

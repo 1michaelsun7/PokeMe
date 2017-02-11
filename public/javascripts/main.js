@@ -12,35 +12,83 @@ var pokemonz = fullpokemonzlist;
 
 
 $(document).ready(function(){
+
 	init();
+
 	$('#pokemonme').on('click', function(){
 		$('#pokemonme').prop('disabled', true);
 		$('#pokemonme').val('Calculating...');
 		var files = $('#uploadselfie')[0];
 		if (files.files && files.files[0]){
 			file = files.files[0];
-			var serverUrl = 'https://api.parse.com/1/files/' + file.name;
 			if (file.type == "image/jpeg" || file.type == "image/png" || file.type == "image/jpg"){
-				$.ajax({
-					type: "POST",
-					beforeSend: function(request) {
-						request.setRequestHeader("X-Parse-Application-Id", 'CEPRz4cQkzP87BMfgz6gyplDIDQlHTmMbuaCGrjM');
-						request.setRequestHeader("X-Parse-REST-API-Key", '7heaxR0FJxTdLVxEY7Bp6f9YakU3cA859ZVZb0SR');
-						request.setRequestHeader("Content-Type", file.type);
-					},
-					url: serverUrl,
-					data: file,
-					processData: false,
-					contentType: false,
-					success: function(data) {
-						console.log(data.url)
-						pokeme(data.url);
-					},
-					error: function(data) {
-						var obj = jQuery.parseJSON(data);
-						alert(obj.error);
-					}
+				console.log(file.name);
+				var metadata = {
+					'contentType': file.type
+				};
+
+				var auth = firebase.auth();
+    			var storageRef = firebase.storage().ref();
+    			var uploadTask = storageRef.child('images/' + file.name).put(file, metadata);
+
+    			// Listen for state changes, errors, and completion of the upload.
+				uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+				  function(snapshot) {
+				    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+				    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				    console.log('Upload is ' + progress + '% done');
+				    switch (snapshot.state) {
+				      case firebase.storage.TaskState.PAUSED: // or 'paused'
+				        console.log('Upload is paused');
+				        break;
+				      case firebase.storage.TaskState.RUNNING: // or 'running'
+				        console.log('Upload is running');
+				        break;
+				    }
+				  }, function(error) {
+				  switch (error.code) {
+					case 'storage/unauthorized':
+					  console.log("Unauthorized Use")
+					  // User doesn't have permission to access the object
+					  break;
+
+					case 'storage/canceled':
+					  console.log("Cancelled")
+					  // User canceled the upload
+					  break;
+				  }
+				}, function() {
+					// Upload completed successfully, now we can get the download URL
+					var downloadURL = uploadTask.snapshot.downloadURL;
+					console.log(downloadURL);
+					pokeme(downloadURL);
 				});
+				// $.ajax({
+				// 	type: "POST",
+				// 	// beforeSend: function(request) {
+				// 	// 	storageRef.child('images/' + file.name).put(file, metadata).then(function(snapshot) {
+				// 	// 		console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+				// 	// 		console.log(snapshot.metadata);
+				// 	// 		var url = snapshot.downloadURL;
+				// 	// 		console.log('File available at', url);}).catch(function(error) {
+				// 	// 		// [START onfailure]
+				// 	// 		console.error('Upload failed:', error);
+				// 	// 		// [END onfailure]
+				// 	// 	});
+				// 	// },
+				// 	url: "https://pokeme-b433b.firebaseio.com/.json",
+				// 	data: file,
+				// 	processData: false,
+				// 	contentType: false,
+				// 	success: function(data) {
+				// 		console.log(data.url)
+				// 		pokeme(data.url);
+				// 	},
+				// 	error: function(data) {
+				// 		var obj = jQuery.parseJSON(data);
+				// 		alert(obj.error);
+				// 	}
+				// });
 			} else {
 				alert('Upload file must be .png, .jpg, or .jpeg');
 			}
@@ -71,6 +119,7 @@ $(document).ready(function(){
 });
 
 function init(){
+
 	$.post("https://api.clarifai.com/v1/token/", 
 	{
 		grant_type: "client_credentials",

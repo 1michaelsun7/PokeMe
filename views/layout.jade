@@ -4,9 +4,17 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+    script(src='https://www.gstatic.com/firebasejs/3.6.9/firebase.js')
+    script(type='text/javascript').
+        var config = {
+            apiKey: "AIzaSyDPQe7A6-NHNyBvzZKhz0w97hAv2_Y8DSw",
+            authDomain: "pokeme-b433b.firebaseapp.com",
+            databaseURL: "https://pokeme-b433b.firebaseio.com",
+            storageBucket: "pokeme-b433b.appspot.com",
+        };
+        firebase.initializeApp(config);
     script(type='text/javascript', src='./javascripts/clarifai_basic.js')
     script(type='text/javascript', src='./javascripts/main.js')
-    script(src='https://www.gstatic.com/firebasejs/3.6.9/firebase.js')
     block content_scripts
   body
     block content

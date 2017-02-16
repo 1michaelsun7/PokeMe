@@ -128,7 +128,7 @@ p a {
 }
 
 #changeContent {
+    display: none;
 	margin-top: -150px;
 	position: relative;
-	display: block;
 }

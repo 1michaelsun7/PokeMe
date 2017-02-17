@@ -114,68 +114,43 @@ $(document).ready(function(){
 // 	});
 // }
 
-function positive(url, pkmn){
-	try{
-		pokefai.positive(url, pkmn);
-		pokefai.train(pkmn);
-	} catch (err){
-		console.log(err.message);
-	}
-}
+// function positive(url, pkmn){
+// 	try{
+// 		pokefai.positive(url, pkmn);
+// 		pokefai.train(pkmn);
+// 	} catch (err){
+// 		console.log(err.message);
+// 	}
+// }
 
-function negative(url, pkmn){
-	try{
-		pokefai.negative(url, pkmn);
-		pokefai.train(pkmn);
-	} catch (err){
-		console.log(err.message);
-	}
-}
+// function negative(url, pkmn){
+// 	try{
+// 		pokefai.negative(url, pkmn);
+// 		pokefai.train(pkmn);
+// 	} catch (err){
+// 		console.log(err.message);
+// 	}
+// }
 
 function getpercentage(j, url){
 	var thispokemon = pokemonz[j];
-	pokefai.predict(url, thispokemon).then(
-		function(response){
-			var thispercentage = response.score;
-			if (thispercentage > percentmatch){
-				percentmatch = thispercentage;
-				closestpokemon = thispokemon;
-				console.log(closestpokemon + ", " + percentmatch);
-				if (thispercentage > 0.8){
-					positive(url, thispokemon);
-				} else if (thispercentage < 0.2){
-					negative(url, thispokemon);
-				}
-			}
-			aftermath();
-			return 0;
-
-		},
-		function(e){
-			// an error occurred
-			console.log(e);
-			return 0;
-		}
-	);
+	var thispercentage = Math.random()*50 + 20; // random(20,70)
+	if (thispercentage > percentmatch){
+		percentmatch = thispercentage;
+		closestpokemon = thispokemon;
+		console.log(closestpokemon + ", " + percentmatch);
+	}
 }
 
 function pokeme(url){
 	for (var i = 0; i < pokemonz.length; i++){
 		getpercentage(i, url);
 	}
-}
-
-function aftermath(){
-	count++;
-	if (count == pokemonz.length){
-		console.log("Closest pokemon: " + closestpokemon + "\nPercentage similarity: " + percentmatch);
-		percentmatch = (100*percentmatch).toFixed(2);
-		$('#pokemonme').prop('disabled', false);
-		$('#pokemonme').val('Submit');
-		$('#login-form').html("<p class='shadowOutline3'>Congrats! You match <a target='_blank' class='resultlink' href='http://www.google.com/images?q=pokemon+" + closestpokemon + "'>" + closestpokemon + "</a> the most!<br>Confidence: " + percentmatch + "%");
-		closestpokemon = "";
-		percentmatch = 0;
-		count = 0;
-	}
-	
+	console.log("Closest pokemon: " + closestpokemon + "\nPercentage similarity: " + percentmatch);
+	percentmatch = percentmatch.toFixed(2);
+	$('#pokemonme').prop('disabled', false);
+	$('#pokemonme').val('Submit');
+	$('#login-form').html("<p class='shadowOutline3'>Congrats! You match <a target='_blank' class='resultlink' href='http://www.google.com/images?q=pokemon+" + closestpokemon + "'>" + closestpokemon + "</a> the most!<br>Confidence: " + percentmatch + "%");
+	closestpokemon = "";
+	percentmatch = 0;
 }
